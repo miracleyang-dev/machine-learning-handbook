@@ -22,11 +22,11 @@ Full list lives in [`INDEX.md`](./INDEX.md).
 ```
 topics/
 └── TNN-slug/
-    ├── README.md   # 1-3 sentences + keywords + refs
     ├── 01.png      # zero-padded, append-only
     └── 02.png
 ```
 
+- **No per-topic README**：专题信息（关键词、状态）统一在根目录 [`INDEX.md`](./INDEX.md) 维护，避免重复。
 - **PNG-first**: native images render inline on GitHub, single-page edits are friction-free.
 - **Append-only IDs**: 专题编号只增不改，旧链接永不失效。
 - **PDF optional**: 某专题封板后，可在该目录追加 `topic.pdf` 作为离线副本。
