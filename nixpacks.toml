@@ -1,11 +1,15 @@
 [phases.setup]
-nixPkgs = ["python311"]
+nixPkgs = ["python3", "gcc"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "python3 -m venv /opt/venv",
+  ". /opt/venv/bin/activate && pip install --upgrade pip",
+  ". /opt/venv/bin/activate && pip install -r requirements.txt"
+]
 
 [phases.build]
-cmds = ["mkdocs build --strict"]
+cmds = [". /opt/venv/bin/activate && mkdocs build --strict"]
 
 [start]
-cmd = "python -m http.server $PORT --directory site"
+cmd = ". /opt/venv/bin/activate && python -m http.server ${PORT:-8000} --directory site"
