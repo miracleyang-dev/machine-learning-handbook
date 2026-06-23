@@ -1,0 +1,280 @@
+/* ============================================
+   ML Atlas — minimal dark tech
+   ============================================ */
+
+:root {
+  --bg:        #0a0d14;
+  --bg-soft:   #11151f;
+  --panel:     #141926;
+  --border:    #1f2738;
+  --text:      #d4dbe8;
+  --text-dim:  #7783a0;
+  --cyan:      #00d4ff;
+  --cyan-dim:  #007a99;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color:           var(--bg);
+  --md-default-fg-color:           var(--text);
+  --md-default-fg-color--light:    var(--text);
+  --md-default-fg-color--lighter:  var(--text-dim);
+  --md-default-fg-color--lightest: var(--border);
+  --md-code-bg-color:              var(--bg-soft);
+  --md-primary-fg-color:           var(--cyan);
+  --md-accent-fg-color:            var(--cyan);
+  --md-typeset-a-color:            var(--cyan);
+}
+
+body { background: var(--bg); }
+
+/* Header */
+.md-header {
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
+}
+.md-tabs { background: transparent; border-bottom: 1px solid var(--border); }
+.md-tabs__link--active { color: var(--cyan); }
+
+/* Typography */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: "JetBrains Mono", "Roboto Mono", ui-monospace, monospace;
+  color: #fff;
+}
+.md-typeset h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+.md-typeset h2 { font-size: 1.15rem; color: var(--cyan); }
+.md-typeset h3 { font-size: 0.95rem; color: var(--text); }
+
+.md-typeset a { border-bottom: 1px dashed var(--cyan-dim); text-decoration: none; }
+.md-typeset a:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+.md-typeset code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  font-size: 0.85em;
+}
+.md-typeset pre > code { border-left: 2px solid var(--cyan); }
+
+.md-typeset blockquote {
+  border-left: 2px solid var(--cyan-dim);
+  color: var(--text-dim);
+  font-style: normal;
+}
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  font-size: 0.8rem;
+}
+.md-typeset table:not([class]) th {
+  background: var(--bg-soft);
+  color: var(--cyan);
+  border-bottom: 1px solid var(--cyan-dim);
+}
+
+/* ============================================
+   Content width (a bit wider for math/code)
+   ============================================ */
+.md-grid { max-width: 70rem; }
+.md-typeset { font-size: 0.82rem; line-height: 1.7; }
+
+/* ============================================
+   KaTeX math blocks
+   ============================================ */
+.md-typeset .katex {
+  font-size: 1.08em;
+}
+/* Inline math sits cleanly on baseline */
+.md-typeset .arithmatex { color: var(--text); }
+.md-typeset span.arithmatex { white-space: nowrap; }
+
+/* Display equations: panel-style, horizontal scroll on overflow */
+.md-typeset div.arithmatex {
+  margin: 1.1em 0;
+  padding: 0.9em 1em;
+  background: var(--bg-soft);
+  border-left: 2px solid var(--cyan);
+  border-radius: 0 4px 4px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: center;
+}
+.md-typeset div.arithmatex::-webkit-scrollbar { height: 6px; }
+.md-typeset div.arithmatex::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.md-typeset .katex-display {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+.md-typeset .katex-display > .katex {
+  display: inline-block;
+  white-space: nowrap;
+  text-align: initial;
+}
+
+/* ============================================
+   Code blocks (Pygments + Material)
+   ============================================ */
+.md-typeset pre {
+  margin: 1.1em 0;
+}
+.md-typeset .highlight {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.md-typeset .highlight pre,
+.md-typeset .highlight code {
+  background: transparent !important;
+}
+.md-typeset .highlight > pre > code {
+  display: block;
+  padding: 0.95em 1.15em;
+  font-family: "JetBrains Mono", "Roboto Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--text);
+  overflow-x: auto;
+  tab-size: 4;
+}
+/* Standalone code blocks (no .highlight wrapper) */
+.md-typeset pre > code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: 4px;
+  display: block;
+  padding: 0.95em 1.15em;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+/* Inline code */
+.md-typeset :not(pre) > code {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: #e8d39a;
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  font-size: 0.82em;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Pygments token colors for slate */
+[data-md-color-scheme="slate"] .highlight .k,   /* keyword */
+[data-md-color-scheme="slate"] .highlight .kn,
+[data-md-color-scheme="slate"] .highlight .kd { color: #ff6b9d; }
+[data-md-color-scheme="slate"] .highlight .s,
+[data-md-color-scheme="slate"] .highlight .s1,
+[data-md-color-scheme="slate"] .highlight .s2 { color: #c3e88d; }  /* string */
+[data-md-color-scheme="slate"] .highlight .mi,
+[data-md-color-scheme="slate"] .highlight .mf { color: #f78c6c; }  /* number */
+[data-md-color-scheme="slate"] .highlight .c,
+[data-md-color-scheme="slate"] .highlight .c1,
+[data-md-color-scheme="slate"] .highlight .cm { color: #6b7a99; font-style: italic; }
+[data-md-color-scheme="slate"] .highlight .nf,
+[data-md-color-scheme="slate"] .highlight .nc { color: var(--cyan); }
+[data-md-color-scheme="slate"] .highlight .nb { color: #82aaff; }
+[data-md-color-scheme="slate"] .highlight .o,
+[data-md-color-scheme="slate"] .highlight .p { color: #89ddff; }
+
+/* Long inline equations inside table cells: allow wrap */
+.md-typeset table .arithmatex { white-space: normal; }
+
+
+/* ============================================
+   Horizontal Coverflow (landing only)
+   ============================================ */
+.hcarousel {
+  margin: 2.5rem -1.2rem 1rem;
+  position: relative;
+}
+.hcarousel__track {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 2rem max(40%, 2rem);
+  scrollbar-width: none;
+}
+.hcarousel__track::-webkit-scrollbar { display: none; }
+
+.hcard {
+  flex: 0 0 320px;
+  min-height: 220px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem 1.4rem;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-decoration: none !important;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  transform: scale(0.78);
+  opacity: 0.35;
+  transition: transform 0.35s ease, opacity 0.35s ease, border-color 0.2s, box-shadow 0.2s;
+}
+.hcard.is-active {
+  transform: scale(1);
+  opacity: 1;
+  border-color: var(--cyan);
+  box-shadow: 0 0 32px rgba(0, 212, 255, 0.18);
+}
+.hcard:hover { border-color: var(--cyan); }
+
+.hcard__id {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--cyan);
+  letter-spacing: 0.18em;
+}
+.hcard__title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+.hcard__desc {
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.55;
+  flex: 1;
+}
+.hcard__tags {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.hcarousel__hint {
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .hcard { flex-basis: 78vw; }
+  .hcarousel__track { padding: 1rem 11vw; }
+}

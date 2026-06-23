@@ -1,44 +1,78 @@
-# ink-ml-notes
+# ml-atlas
 
-Handwritten notes on ML/DL & math fundamentals, organized by topic modules for high-frequency review.
+> A modular knowledge base of deep-learning fundamentals and mathematical prerequisites, maintained as a continuously-updated reference site.
 
-> 手写整理的机器学习 / 深度学习核心知识点与数学基础速查库。按 **专题模块化** 划分，不严格绑定学科边界。
+按主题模块化的深度学习与机器学习及相关数学基础在线知识库，基于 MkDocs Material 构建，托管在 Railway，提交即自动部署。
 
----
+## 在线访问
 
-## Topics 专题索引
+- 主站：<https://ml-atlas.up.railway.app>（部署完成后生效）
 
-Append-only. New topics get the next free `TNN` slot; do not renumber existing entries.
-编号只增不改，旧链接永不失效。
+## 技术栈
 
-| ID  | Topic                         | Keywords                            | Status   |
-| --- | ----------------------------- | ----------------------------------- | -------- |
-| T01 | [SVD / PCA / LDA](./topics/T01-svd-pca-lda/)            | dim reduction · eigen · projection  |🚧 WIP |
-| T02 | [Matrix Calculus 矩阵求导](./topics/T02-matrix-calculus/) | layout · chain rule · Jacobian      | 🧪 Draft |
-| T03 | [KKT & Duality 对偶问题](./topics/T03-kkt-duality/)      | convex · Lagrangian · slackness     | 🧪 Draft |
-| T04 | [DL Optimizers 优化器](./topics/T04-dl-optimizers/)      | SGD · Momentum · Adam · Lion        | 🧪 Draft |
+| 层 | 选型 | 说明 |
+| --- | --- | --- |
+| 内容 | Markdown + KaTeX | 纯文本，AI 可直接生成 |
+| 框架 | MkDocs Material 9.x | Python 构建，分组导航 + 顶部 tabs |
+| 公式 | pymdownx.arithmatex + KaTeX | 轻量、渲染快 |
+| 托管 | Railway (Nixpacks) | push 触发自动重建 |
 
-**Status legend** — 🧪 Draft (占号未写) · 🚧 WIP (持续补充) · ✅ Done (已封板，建议生成 `topic.pdf`)
-
-## Layout 目录约定
+## 目录规范
 
 ```
-topics/
-└── TNN-slug/
-    ├── 01.png      # zero-padded, append-only
-    └── 02.png
+ml-atlas/
+├── docs/
+│   ├── index.md                 # 首页（卡片网格）
+│   ├── stylesheets/             # 主题微调
+│   └── TNN-slug/
+│       └── index.md             # 专题正文
+├── mkdocs.yml                   # 站点配置 & 导航
+├── requirements.txt             # Python 依赖（锁版本）
+├── nixpacks.toml                # Railway 构建配置
+├── LICENSE
+└── README.md
 ```
 
-- **No per-topic README**：专题信息（关键词、状态）统一在本 README 维护，避免重复。
-- **PNG-first**: native images render inline on GitHub, single-page edits are friction-free.
-- **PDF optional**: 某专题封板后，可在该目录追加 `topic.pdf` 作为离线副本。
+新增专题：
 
-## Conventions 编辑约定
+1. 在 `docs/` 下新建 `TNN-slug/index.md`（编号只增不改）。
+2. 在 `mkdocs.yml` 的 `nav` 节点对应分组下追加一行。
+3. commit + push 即可。
 
-- File naming: `NN.png` (zero-padded two digits)
-- New topic = new `TNN-` folder + 在上方索引表追加一行，never renumber existing ones
-- Large PNGs tracked via **Git LFS** (see `.gitattributes`)
-- Commit messages: `T03: add KKT slackness page` / `T01: refine SVD geometry diagram`
+## 内容生成工作流
+
+1. 用 AI 生成或编辑专题 Markdown，公式用 `$...$` / `$$...$$` 包裹。
+2. 写入对应 `docs/TNN-slug/index.md`。
+3. 本地预览（见下节）确认无误。
+4. `git commit && git push` —— Railway 监听 push，约 90 秒内重建上线。
+
+## 本地预览
+
+```bash
+# 一次性安装依赖
+pip install -r requirements.txt
+
+# 启动本地预览服务（默认 http://127.0.0.1:8000）
+mkdocs serve
+
+# 仅构建静态产物到 site/
+mkdocs build --strict
+```
+
+## Railway 部署
+
+首次接入（一次性）：
+
+1. Railway Dashboard → `New Project` → `Deploy from GitHub repo` → 选 `miracleyang-dev/ml-atlas`。
+2. Railway 自动识别 `nixpacks.toml`，无需手填命令。
+3. 服务 `Settings` → `Networking` → `Generate Domain` 拿到 `*.up.railway.app` 域名。
+4. 默认监听 `main` 分支 push，后续无需再动。
+
+更新流程：
+
+```
+本地撰写 Markdown → git push → Railway 自动 rebuild → 站点更新
+```
 
 ## License
 

@@ -1,0 +1,78 @@
+site_name: ML Atlas
+site_description: 按主题模块化的深度学习与机器学习及相关数学基础知识库。
+site_url: https://ml-atlas.up.railway.app
+repo_url: https://github.com/miracleyang-dev/ml-atlas
+repo_name: miracleyang-dev/ml-atlas
+
+theme:
+  name: material
+  language: zh
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  icon:
+    repo: fontawesome/brands/github
+    logo: material/atom-variant
+
+extra_css:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js
+  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js
+  - stylesheets/katex-init.js
+
+extra:
+  generator: false
+
+nav:
+  - 首页: index.md
+  - T01 · SVD / PCA / LDA: T01-svd-pca-lda/index.md
+  - T02 · Matrix Calculus: T02-matrix-calculus/index.md
+  - T03 · KKT & Duality: T03-kkt-duality/index.md
+  - T04 · DL Optimizers: T04-dl-optimizers/index.md

@@ -3,20 +3,21 @@
 Thumbs.db
 desktop.ini
 
-# Editor / Tools
+# Editor
 .idea/
 .vscode/
 *.swp
 *~
 
-# Source / Working files (keep out of repo)
-*.psd
-*.xcf
-*.kra
-*.procreate
-scans-raw/
-drafts/
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
 
-# Auto-generated
+# MkDocs build output
+site/
+
+# Misc
 *.tmp
 *.bak
