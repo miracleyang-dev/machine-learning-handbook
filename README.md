@@ -1,4 +1,4 @@
-# ml-atlas
+# machine-learning-handbook
 
 > A modular knowledge base of deep-learning fundamentals and mathematical prerequisites, maintained as a continuously-updated reference site.
 
@@ -6,7 +6,7 @@
 
 ## 在线访问
 
-- 主站：<https://ml-atlas.up.railway.app>（部署完成后生效）
+- 主站：<https://machine-learning-handbook.up.railway.app>（部署完成后生效）
 
 ## 技术栈
 
@@ -20,7 +20,7 @@
 ## 目录规范
 
 ```
-ml-atlas/
+machine-learning-handbook/
 ├── docs/
 │   ├── index.md                 # 首页（卡片网格）
 │   ├── stylesheets/             # 主题微调
@@ -56,7 +56,7 @@ mkdocs build --strict
 
 首次接入（一次性）：
 
-1. Railway Dashboard → `New Project` → `Deploy from GitHub repo` → 选 `miracleyang-dev/ml-atlas`。
+1. Railway Dashboard → `New Project` → `Deploy from GitHub repo` → 选 `miracleyang-dev/machine-learning-handbook`。
 2. Railway 自动识别 `nixpacks.toml`，无需手填命令。
 3. 服务 `Settings` → `Networking` → `Generate Domain` 拿到 `*.up.railway.app` 域名。
 4. 默认监听 `main` 分支 push，后续无需再动。
@@ -66,6 +66,50 @@ mkdocs build --strict
 ```
 本地撰写 Markdown → git push → Railway 自动 rebuild → 站点更新
 ```
+
+## 仓库改名清单
+
+以下以新仓库名 `machine-learning-handbook` 为例；如果最终使用其他名称，把命令和配置里的名字同步替换。
+
+### GitHub
+
+1. 进入仓库 `Settings` → `General` → `Repository name`。
+2. 将仓库名从 `ml-atlas` 改为 `machine-learning-handbook`。
+3. 确认 GitHub 自动生成的重定向可用后，再同步项目内引用：
+   - `mkdocs.yml` 的 `repo_url` / `repo_name`
+   - `README.md` 中的仓库名、目录名、部署说明
+
+### Railway
+
+1. 进入当前 Railway Project，确认服务仍连接到 GitHub 仓库。
+2. 如果 Source Repo 仍显示旧仓库名但构建正常，可以保留；如果构建失败，重新选择 `miracleyang-dev/machine-learning-handbook`。
+3. 如需更换 Railway 服务名或公开域名，在 `Settings` → `Networking` 中处理。
+4. 如果公开域名发生变化，同步更新：
+   - `mkdocs.yml` 的 `site_url`
+   - `README.md` 的“在线访问”链接
+
+### 本地 Git
+
+1. 可选：把本地目录从 `ml-atlas` 改名为 `machine-learning-handbook`。
+2. 更新远程地址：
+
+```bash
+git remote set-url origin git@github.com:miracleyang-dev/machine-learning-handbook.git
+```
+
+如果使用 HTTPS：
+
+```bash
+git remote set-url origin https://github.com/miracleyang-dev/machine-learning-handbook.git
+```
+
+3. 检查远程地址：
+
+```bash
+git remote -v
+```
+
+4. 推送前确认构建通过，再正常提交和推送。
 
 ## License
 
