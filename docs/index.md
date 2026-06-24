@@ -42,7 +42,9 @@ hide:
 </div>
 
 <section class="site-meta">
-  <p>按主题模块化的深度学习与机器学习及相关数学基础知识库</p>
-  <p>Markdown + KaTeX · 部署于 Railway</p>
-  <p>单页另存 PDF：浏览器 <code>Ctrl+P</code> 即可</p>
+  <ul>
+    <li>按主题模块化的深度学习与机器学习及相关数学基础知识库</li>
+    <li>Markdown + KaTeX · 部署于 Railway</li>
+    <li>单页另存 PDF：浏览器 <code>Ctrl+P</code> 即可</li>
+  </ul>
 </section>

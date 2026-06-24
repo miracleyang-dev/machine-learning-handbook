@@ -74,6 +74,7 @@ body { background: var(--bg); }
 }
 .md-tabs__link { color: var(--text-dim); }
 .md-tabs__link--active { color: var(--cyan); }
+.md-source__fact--forks { display: none; }
 
 /* Typography */
 .md-typeset h1,
@@ -320,7 +321,11 @@ body { background: var(--bg); }
   font-size: 0.78rem;
   line-height: 1.7;
 }
-.site-meta p {
+.site-meta ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.site-meta li {
   margin: 0.2rem 0;
 }
 
