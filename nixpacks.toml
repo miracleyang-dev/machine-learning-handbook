@@ -1,11 +1,12 @@
 [phases.setup]
-nixPkgs = ["python3", "gcc"]
+nixPkgs = ["python3", "gcc", "curl", "gnutar", "gzip", "bash"]
 
 [phases.install]
 cmds = [
   "python3 -m venv /opt/venv",
   ". /opt/venv/bin/activate && pip install --upgrade pip",
-  ". /opt/venv/bin/activate && pip install -r requirements.txt"
+  ". /opt/venv/bin/activate && pip install -r requirements.txt",
+  "bash docs/scripts/fetch-assets.sh"
 ]
 
 [phases.build]

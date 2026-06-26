@@ -2,6 +2,69 @@
    ML Atlas — dark tech, mobile-first
    ============================================ */
 
+/* --------------------------------------------
+   Self-hosted fonts (avoids fonts.googleapis.com
+   / fonts.gstatic.com — restricted networks).
+   Files fetched by docs/scripts/fetch-assets.sh
+   into docs/assets/fonts/. Theme `font: false`
+   in mkdocs.yml prevents Material from injecting
+   Google Fonts <link> tags.
+   -------------------------------------------- */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/inter/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/inter/inter-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/inter/inter-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/inter/inter-latin-700-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/jetbrains-mono/jetbrains-mono-latin-700-normal.woff2") format("woff2");
+}
+
+/* Apply self-hosted families globally — Material `font: false` would otherwise
+   fall back to system stack only. */
+html, body, .md-typeset {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+               Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+code, kbd, pre, .md-typeset code, .md-typeset pre {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+               Consolas, "Liberation Mono", monospace;
+}
+
 :root,
 [data-md-color-scheme="slate"] {
   --bg:          #07090f;
@@ -69,12 +132,29 @@ body {
   background-attachment: fixed;
 }
 
+/* Defensive: prevent any single overflowing element (long formula, wide
+   carousel, etc.) from making the whole page horizontally scrollable on
+   mobile. Inner scroll containers keep their own overflow. */
+html, body {
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* iOS safe-area */
 @supports (padding: max(0px)) {
   .md-header,
   .md-footer {
     padding-left:  max(0px, env(safe-area-inset-left));
     padding-right: max(0px, env(safe-area-inset-right));
+  }
+  /* Content region: pad with safe-area on notched / cut-out devices in
+     landscape so paragraphs and code blocks are not clipped. */
+  .md-main__inner,
+  .md-content__inner {
+    padding-left:  max(0.6rem, env(safe-area-inset-left));
+    padding-right: max(0.6rem, env(safe-area-inset-right));
   }
 }
 
@@ -190,9 +270,32 @@ body {
   overflow-y: hidden;
   text-align: center;
   -webkit-overflow-scrolling: touch;
+  /* --- Long-formula horizontal pan (mobile) --------------------------------
+     touch-action: pan-x  -> tells the browser this gesture is horizontal,
+                             so it skips the 300ms touch-action delay and
+                             hands the swipe straight to the scroll
+                             compositor (cures the "卡顿 / 灵敏度不足" feel).
+     overscroll-behavior-x: contain -> scroll stops at the formula edge
+                             instead of chaining into page / carousel scroll
+                             (no accidental page swipe when flicking a wide
+                             equation).
+     scroll-snap-type: x proximity -> gentle alignment without trapping.
+     will-change & transform: translateZ(0) -> promotes to its own layer so
+                             scrolling is GPU-composited, not repainted. */
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  will-change: scroll-position;
+  transform: translateZ(0);
+  scrollbar-width: thin;
+  scrollbar-color: var(--cyan-dim) transparent;
 }
-.md-typeset div.arithmatex::-webkit-scrollbar       { height: 6px; }
-.md-typeset div.arithmatex::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.md-typeset div.arithmatex::-webkit-scrollbar       { height: 8px; }
+.md-typeset div.arithmatex::-webkit-scrollbar-thumb {
+  background: var(--cyan-dim);
+  border-radius: 4px;
+}
+.md-typeset div.arithmatex::-webkit-scrollbar-track { background: transparent; }
 .md-typeset .katex-display          { margin: 0; padding: 0; overflow: visible; }
 .md-typeset .katex-display > .katex { display: inline-block; white-space: nowrap; text-align: initial; }
 
@@ -218,6 +321,10 @@ body {
   color: var(--text);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  /* Match formula horizontal-scroll feel — see .arithmatex above. */
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  will-change: scroll-position;
   tab-size: 4;
 }
 .md-typeset pre > code {
@@ -232,7 +339,16 @@ body {
   line-height: 1.65;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  will-change: scroll-position;
 }
+.md-typeset .highlight > pre > code::-webkit-scrollbar,
+.md-typeset pre > code::-webkit-scrollbar              { height: 8px; }
+.md-typeset .highlight > pre > code::-webkit-scrollbar-thumb,
+.md-typeset pre > code::-webkit-scrollbar-thumb        { background: var(--cyan-dim); border-radius: 4px; }
+.md-typeset .highlight > pre > code::-webkit-scrollbar-track,
+.md-typeset pre > code::-webkit-scrollbar-track        { background: transparent; }
 .md-typeset :not(pre) > code {
   background: var(--bg-soft);
   border: 1px solid var(--border);
@@ -378,8 +494,29 @@ body {
   font-size: 0.78rem;
   line-height: 1.7;
 }
-.site-meta ul { margin: 0; padding-left: 1.25rem; }
-.site-meta li { margin: 0.2rem 0; }
+/* Custom marker — replaces default ul/li padding-left so the text aligns
+   flush with .site-meta's own padding edge (fixes mobile left-offset bug
+   where bullets were sitting at 1.25rem extra indent inside a zero-padding
+   container). */
+.site-meta ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.site-meta li {
+  margin: 0.2rem 0;
+  padding-left: 1.05rem;
+  position: relative;
+}
+.site-meta li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--cyan-dim);
+  font-size: 0.85em;
+  line-height: inherit;
+}
 
 /* ============================================
    Tablet
@@ -437,7 +574,14 @@ body {
 
   .hcarousel__hint { font-size: 0.68rem; margin-top: 0.25rem; }
 
-  .site-meta { padding: 0.9rem 0; font-size: 0.76rem; }
+  /* site-meta: align flush with H1 / paragraph content on mobile.
+     Horizontal padding mirrors .md-content__inner so the border-top line
+     and the first character of each item line up with the title above. */
+  .site-meta {
+    padding: 0.9rem 0.6rem;
+    font-size: 0.76rem;
+  }
+  .site-meta li { padding-left: 0.95rem; }
 }
 
 /* ============================================
@@ -448,6 +592,42 @@ body {
   .hcarousel__track { padding: 1.1rem 8vw; }
   .hcard          { flex-basis: 84vw; padding: 1.15rem 1.05rem; }
   .hcard__title   { font-size: 0.98rem; }
+  .site-meta      { padding: 0.85rem 0.5rem; }
+}
+
+/* ============================================
+   Ultra-narrow / foldables (≤360px)
+   ============================================ */
+@media (max-width: 360px) {
+  .md-typeset      { font-size: 0.8rem; line-height: 1.68; }
+  .md-typeset h1   { font-size: 1.18rem; }
+  .md-typeset h2   { font-size: 1rem; }
+  .md-typeset h3   { font-size: 0.92rem; }
+
+  /* Carousel: shrink padding so the active card never gets clipped by the
+     viewport edge; reduce card basis so peek is still visible. */
+  .hcarousel        { margin: 1rem -0.5rem 0.4rem; }
+  .hcarousel__track { padding: 1rem 6vw; gap: 0.7rem; }
+  .hcard {
+    flex-basis: 88vw;
+    min-height: 188px;
+    padding: 1rem 0.95rem;
+  }
+  .hcard__title    { font-size: 0.94rem; }
+  .hcard__desc     { font-size: 0.8rem; line-height: 1.5; }
+  .hcard__tags     { font-size: 0.66rem; }
+
+  /* Formula / code blocks: tighter negative margin so they don't poke
+     under safe-area on the smallest screens. */
+  .md-typeset div.arithmatex,
+  .md-typeset pre,
+  .md-typeset .highlight {
+    margin-left: -0.4rem;
+    margin-right: -0.4rem;
+  }
+
+  .site-meta { padding: 0.8rem 0.4rem; font-size: 0.74rem; }
+  .site-meta li { padding-left: 0.85rem; }
 }
 
 /* ============================================

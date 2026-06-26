@@ -7,9 +7,9 @@ repo_name: miracleyang-dev/machine-learning-handbook
 theme:
   name: material
   language: zh
-  font:
-    text: Inter
-    code: JetBrains Mono
+  # Google Fonts disabled: self-hosted @font-face declared in stylesheets/extra.css
+  # (avoids fonts.googleapis.com blocking / slow loads in restricted networks)
+  font: false
   features:
     - navigation.indexes
     - navigation.top
@@ -38,7 +38,8 @@ theme:
     logo: material/atom-variant
 
 extra_css:
-  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css
+  # KaTeX CSS is self-hosted via docs/scripts/fetch-assets.sh -> docs/assets/katex/
+  - assets/katex/katex.min.css
   - stylesheets/extra.css
 
 markdown_extensions:
@@ -54,8 +55,9 @@ markdown_extensions:
       generic: true
 
 extra_javascript:
-  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js
-  - https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js
+  # KaTeX JS is self-hosted via docs/scripts/fetch-assets.sh -> docs/assets/katex/
+  - assets/katex/katex.min.js
+  - assets/katex/contrib/auto-render.min.js
   - stylesheets/katex-init.js
 
 extra:
