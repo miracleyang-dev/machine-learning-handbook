@@ -63,12 +63,19 @@ extra_javascript:
 extra:
   generator: false
 
-# Exclude build-time fetched assets and the fetch script from mkdocs page
-# scanning. Without this, mkdocs --strict aborts on KaTeX's bundled README.md
-# ("page exists in docs/ but not in nav"). Files are still copied to the
-# built site as static resources.
+# Exclude only our build-script directory from mkdocs page scanning.
+#
+# IMPORTANT: do NOT add `assets/` to this list. `exclude_docs` is gitignore-
+# style and is applied to BOTH the docs/ tree AND the active theme's source
+# tree. A pattern of `assets/` silently drops mkdocs-material's own
+# assets/stylesheets/main.*.min.css, assets/javascripts/bundle.*.min.js,
+# assets/images/favicon.png and bundled SVG icons — the site loads but every
+# theme stylesheet/script/icon 404s.
+#
+# KaTeX's bundled README.md (the original reason for excluding `assets/`) is
+# already removed at fetch time by docs/scripts/fetch-assets.sh, so no
+# exclusion of docs/assets/ is needed.
 exclude_docs: |
-  assets/
   scripts/
 
 nav:
